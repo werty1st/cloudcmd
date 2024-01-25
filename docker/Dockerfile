@@ -6,18 +6,20 @@ WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app/
 
-RUN npm config set package-lock false && \
+RUN apt-get update && \
+    npm config set package-lock false && \
     npm install --production && \
     npm i gritty && \
-    npm cache clean --force
+    npm cache clean --force && \
+    apt-get clean
 
 COPY . /usr/src/app
 
 WORKDIR /
 
-ENV cloudcmd_terminal true
-ENV cloudcmd_terminal_path gritty
-ENV cloudcmd_open false
+ENV cloudcmd_terminal true \
+    cloudcmd_terminal_path gritty \
+    cloudcmd_open false
 
 EXPOSE 8000
 
